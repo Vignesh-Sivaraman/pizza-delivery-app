@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Home from "./Routes/Home/Home";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Dashboard from "./Routes/Dashboard/Dashboard";
+import Cart from "./Routes/Cart/Cart";
+import { UserProvider } from "./context/UserContext";
+import Login from "./Routes/Login/Login";
+import Signup from "./Routes/Signup/Signup";
+import AdminLogin from "./Routes/Admin/AdminLogin";
+
+library.add(faCartShopping);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/adminsignin" element={<AdminLogin />} />
+
+        <Route path="/home" element={<Home />}>
+          <Route index element={<Dashboard />} />
+          <Route path="cart" element={<Cart />} />
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }
 
