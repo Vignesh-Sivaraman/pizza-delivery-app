@@ -4,8 +4,7 @@ import { Field, FormikProvider, useFormik } from "formik";
 import { env } from "../../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-function Signup() {
+function AdminSignup() {
   let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -120,4 +119,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default AdminSignup;

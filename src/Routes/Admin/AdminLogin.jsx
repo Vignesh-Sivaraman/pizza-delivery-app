@@ -1,14 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { Field, FormikProvider, useFormik } from "formik";
 import { env } from "../../config/config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function AdminLogin() {
+function AdminSignup() {
+  let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      usertype: "",
     },
     validate: (values) => {
       let errors = {};
@@ -20,102 +23,113 @@ function AdminLogin() {
       return errors;
     },
     onSubmit: async (values) => {
-      let user = await axios.post(`${env.api}/login`, values);
-      if (user.status === 200) {
-        alert("Registered");
-      } else {
-        alert("some Error");
+      try {
+        let loginData = await axios.post(`${env.api}/login`, values);
+
+        if (loginData.status === 200) {
+          console.log(loginData.data);
+          window.localStorage.setItem("app-token", loginData.data.token);
+          if ((loginData.data.usertype = "Admin")) navigate("/cart");
+          if ((loginData.data.usertype = "User")) navigate("/home");
+        }
+      } catch (error) {
+        alert(
+          `Error Code: ${error.response.status}- ${error.response.data.message}`
+        );
+        console.log(error.response.data);
       }
     },
   });
-  let navigate = useNavigate();
-
-  let login = () => {
-    navigate("/home");
-  };
-
   return (
-    <div className="container-fluid h-custom  ">
-      <img
-        className="login d-inline "
-        src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-      />
-      <div className="row d-flex justify-content-center align-items-center h-100  ">
-        <div className="col-md-9 col-lg-6 col-xl-5">
-          <div className="row container text-center">
-            <div className="col-12">
-              <h1 style={{ fontSize: "85px", color: "white" }}>
-                Welcome to the Lair Boss
-              </h1>
-            </div>
-            <div className="col-12">
-              <img
-                src="https://st2.depositphotos.com/1002277/5515/i/950/depositphotos_55150353-stock-photo-admin-cubics.jpg"
-                className="img-fluid"
-                alt="Sample image"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-          <form onSubmit={formik.handleSubmit}>
-            <div className="form-outline mb-4">
-              <label className="form-label fw-bold text-white fs-3">
-                Email address
+    <div className="container-fluid h-custom2">
+      <div
+        className="row d-flex justify-content-center align-items-center"
+        style={{ height: "100%" }}
+      >
+        <div className="col-lg-4">
+          <h1
+            className="text-white mb-4"
+            style={{
+              fontSize: "50px",
+              fontFamily: "pacifico",
+            }}
+          >
+            Greetings From Pizza Lair
+          </h1>
+          <FormikProvider value={formik}>
+            <form onSubmit={formik.handleSubmit}>
+              <div className="form-outline mb-4">
+                <label className="form-label text-white fw-bold fs-3">
+                  Email address
+                </label>
+                <input
+                  className="form-control"
+                  type="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  name="email"
+                />
+                <span className="fw-bold" style={{ color: "orange" }}>
+                  {formik.errors.email}
+                </span>
+              </div>
+
+              <div className="form-outline mb-3">
+                <label className="form-label text-white fw-bold fs-3">
+                  Password
+                </label>
+                <input
+                  className="form-control"
+                  type="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  name="password"
+                />
+                <span className="fw-bold" style={{ color: "orange" }}>
+                  {formik.errors.password}
+                </span>
+                <div className="d-flex justify-content-between align-items-center">
+                  <Link className="fw-bold fs-4 mt-2  text-white">
+                    Forgot password?
+                  </Link>
+                </div>
+              </div>
+              <Field type="radio" name="usertype" value="Admin" />
+              <label className="form-label mx-2 text-white  fw-bold fs-5">
+                Admin
               </label>
-              <input
-                className="form-control"
-                type="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                name="email"
-              />
-              <span style={{ color: "red" }}>{formik.errors.email}</span>
-            </div>
-
-            <div className="form-outline mb-3">
-              <label className="form-label  fw-bold text-white fs-3">
-                Password
+              <Field type="radio" name="usertype" value="User" required />
+              <label className="form-label mx-2 text-white  fw-bold fs-5">
+                User
               </label>
-              <input
-                className="form-control"
-                type="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                name="password"
-              />
-              <span style={{ color: "red" }}>{formik.errors.password}</span>
-            </div>
-            <div className="d-flex justify-content-between align-items-center">
-              <Link className="fw-bold text-white fs-3">Forgot password?</Link>
-            </div>
 
-            <div className="text-center text-lg-start mt-4 pt-2">
-              <input
-                type={"submit"}
-                value="Login"
-                className="btn btn-primary btn-lg"
-                style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
-              />
+              <div className="text-center text-lg-start mt-3 pt-2">
+                <input
+                  type={"submit"}
+                  value="Sign in"
+                  className="btn btn-warning btn-lg"
+                  style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                />
 
-              <p className="small fw-bold mt-2 pt-1 mb-0">
-                Don't have an account?
-                <Link to="/signup" className="link-danger ms-1">
-                  Sign Up
-                </Link>
-              </p>
-              <p className="small fw-bold mt-2 pt-1 mb-0">
-                For Admin
-                <Link to="/adminsignin" className="link-danger ms-1">
-                  Sign In Here
-                </Link>
-              </p>
-            </div>
-          </form>
+                <p
+                  className="small fw-bold mt-2 pt-1 mb-0"
+                  style={{ color: "#F9F9C5" }}
+                >
+                  New here?
+                  <Link
+                    to="/signup"
+                    className="link-warning ms-1 text-white fw-bold"
+                  >
+                    Sign Up Here
+                  </Link>
+                </p>
+              </div>
+            </form>
+          </FormikProvider>
         </div>
       </div>
     </div>
   );
 }
 
-export default AdminLogin;
+export default AdminSignup;
