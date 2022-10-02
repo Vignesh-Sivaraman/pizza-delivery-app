@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { env } from "../../config/config";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  let [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -23,21 +24,41 @@ function Signup() {
       return errors;
     },
     onSubmit: async (values) => {
-      values.verified = false;
-      console.log(values);
-      let user = await axios.post(`${env.api}/register`, values);
-      if (user.status === 200) {
-        alert(user.data.message);
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
-      } else {
-        alert(user.data.message);
+      try {
+        setIsLoading(true);
+        values.verified = false;
+        let user = await axios.post(`${env.api}/register`, values);
+        setIsLoading(false);
+        if (user.status === 200) {
+          alert(user.data.message);
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        alert(
+          `Error Code: ${error.response.status}- ${error.response.data.message}`
+        );
       }
     },
   });
   return (
     <div className="container-fluid h-custom">
+      {isLoading ? (
+        <div
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontWeight: "bold",
+            fontSize: "20px",
+          }}
+        >
+          Loading...
+        </div>
+      ) : (
+        ""
+      )}
       <div
         className="row d-flex justify-content-center align-items-center"
         style={{ height: "100%" }}

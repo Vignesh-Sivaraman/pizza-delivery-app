@@ -3,14 +3,14 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { env } from "../../config/config";
 
-const EmailVerify = () => {
+const PasswordVerify = () => {
   const [validUrl, setValidUrl] = useState(true);
   const param = useParams();
 
   useEffect(() => {
     const verifyEmailUrl = async () => {
       try {
-        const url = `${env.api}/register/${param.id}/verify/${param.token}`;
+        const url = `${env.api}/forpass/${param.id}/verify/${param.token}`;
         const { data } = await axios.get(url);
         setValidUrl(true);
       } catch (error) {
@@ -38,10 +38,10 @@ const EmailVerify = () => {
             src="https://raw.githubusercontent.com/cyber-wolve/AuthInMern/Email-Verify-In-MERN/client/src/images/success.png"
             alt="success_img"
           />
-          <h1>Email verified successfully</h1>
-          <Link to="/">
+          <h1>Click the below button to reset Your password</h1>
+          <Link to="/resetpass">
             <button
-              className="btn btn-success"
+              className="btn btn-sucess"
               style={{
                 border: "none",
                 outline: "none",
@@ -54,7 +54,7 @@ const EmailVerify = () => {
                 cursor: "pointer",
               }}
             >
-              Login
+              Reset password
             </button>
           </Link>
         </div>
@@ -65,4 +65,4 @@ const EmailVerify = () => {
   );
 };
 
-export default EmailVerify;
+export default PasswordVerify;

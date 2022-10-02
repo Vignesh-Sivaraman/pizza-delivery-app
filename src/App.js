@@ -10,9 +10,10 @@ import Cart from "./Routes/Cart/Cart";
 import { UserProvider } from "./context/UserContext";
 import Login from "./Routes/Login/Login";
 import Signup from "./Routes/Signup/Signup";
-import AdminLogin from "./Routes/Admin/AdminLogin";
-import AdminSignup from "./Routes/Admin/AdminSignup";
 import EmailVerify from "./Routes/EmailVerify/EmailVerify";
+import ForgotPassword from "./Routes/ForgotPassword/forgotpassword";
+import PasswordVerify from "./Routes/PasswordVerify/PasswordVerify";
+import ResetPass from "./Routes/ResetPass/ResetPass";
 
 library.add(faCartShopping);
 
@@ -22,9 +23,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/adminsignin" element={<AdminLogin />} />
-        <Route path="/adminsignup" element={<AdminSignup />} />
         <Route path="/:id/verify/:token" element={<EmailVerify />} />
+        <Route path="/forpass" element={<ForgotPassword />} />
+        <Route path="/forpass/:id/verify/:token" element={<PasswordVerify />} />
+        <Route path="/resetpass" element={<ResetPass />} />
 
         <Route path="/home" element={<Home />}>
           <Route index element={<Dashboard />} />

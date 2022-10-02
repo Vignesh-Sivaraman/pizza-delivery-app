@@ -27,16 +27,14 @@ function Login() {
         let loginData = await axios.post(`${env.api}/login`, values);
 
         if (loginData.status === 200) {
-          console.log(loginData.data);
           window.localStorage.setItem("app-token", loginData.data.token);
-          if ((loginData.data.usertype = "Admin")) navigate("/cart");
-          if ((loginData.data.usertype = "User")) navigate("/home");
+          if (loginData.data.type === "Admin") navigate("/home/cart");
+          if (loginData.data.type === "User") navigate("/home");
         }
       } catch (error) {
         alert(
           `Error Code: ${error.response.status}- ${error.response.data.message}`
         );
-        console.log(error.response.data);
       }
     },
   });
@@ -89,7 +87,7 @@ function Login() {
                   {formik.errors.password}
                 </span>
                 <div className="d-flex justify-content-between align-items-center">
-                  <Link className="fw-bold fs-4 mt-2  text-white">
+                  <Link to="/forpass" className="fw-bold fs-4 mt-2  text-white">
                     Forgot password?
                   </Link>
                 </div>

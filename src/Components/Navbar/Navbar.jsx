@@ -46,7 +46,7 @@ const Navbar = () => {
         </span>
       </Link>
       <Link
-        to="/adminsignin"
+        to="/"
         className="btn d-block btn-primary bg-white text-primary fw-bold ms-2 me-2 cart-button "
         style={{ position: "relative" }}
       >
