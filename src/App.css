@@ -24,10 +24,10 @@
 
 @media (max-width: 450px) {
   .h-custom {
-    height: 100vh;
+    height: 100%;
   }
   .h-custom2 {
-    height: 100vh;
+    height: 100%;
   }
   .h-custom2 h1 {
     font-size: 30px !important;
