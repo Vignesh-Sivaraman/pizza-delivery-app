@@ -28,7 +28,7 @@ function Login() {
 
         if (loginData.status === 200) {
           window.localStorage.setItem("app-token", loginData.data.token);
-          if (loginData.data.type === "Admin") navigate("/home/cart");
+          if (loginData.data.type === "Admin") navigate("/adminhome");
           if (loginData.data.type === "User") navigate("/home");
         }
       } catch (error) {

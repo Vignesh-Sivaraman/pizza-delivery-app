@@ -17,7 +17,7 @@ import ResetPass from "./Routes/ResetPass/ResetPass";
 import AdminNav from "./Components/AdminNavbar/AdminNav";
 import AdminHome from "./Routes/AdminHome/AdminHome";
 import AdminPizzaCard from "./Components/AdminPizzaCard/AdminPizzaCard";
-import AdminPizzaDetails from "./Components/AdminPizzaDetails/AdminPizzaDetails";
+import AdminPizzaDetails from "./Routes/AdminPizzaDetails/AdminPizzaDetails";
 import AdminDashboard from "./Routes/Admin Dashboard/AdminDashboard";
 import AdminPizzaVarities from "./Routes/AdminPizzaVarities/AdminPizzaVarities";
 import AdminCreatePizza from "./Routes/AdminCreatePizza/AdminCreatePizza";
@@ -39,7 +39,10 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="adminpizzavarities" element={<AdminPizzaVarities />} />
           <Route path="admincreatepizza" element={<AdminCreatePizza />} />
-          <Route path="adminpizzadetails" element={<AdminPizzaDetails />} />
+          <Route
+            path="adminpizzadetails/:pizzaid"
+            element={<AdminPizzaDetails />}
+          />
         </Route>
 
         <Route path="/home" element={<Home />}>

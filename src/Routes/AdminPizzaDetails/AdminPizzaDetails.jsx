@@ -1,8 +1,25 @@
+import { useContext, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 function AdminPizzaDetails() {
+  let params = useParams();
   let navigate = useNavigate();
+  let context = useContext(UserContext);
+  console.log(context.cartItem);
+  let getitem = async () => {
+    await console.log(context.cartItem);
+    let pizza = await context.cartItem.find((instance) => {
+      return instance._id === params.pizzaid;
+    });
+    console.log(pizza);
+  };
+  // let pizza = {};
+  useEffect(() => {
+    getitem();
+  }, []);
+
   return (
     <>
       <h3 className="text-center fw-bold text-primary">Pizza Name</h3>
