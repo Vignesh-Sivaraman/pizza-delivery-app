@@ -33,3 +33,10 @@
     font-size: 30px !important;
   }
 }
+
+@media (max-width: 768px) {
+  .cartcount {
+    top: -2px !important;
+    right: 300px !important;
+  }
+}

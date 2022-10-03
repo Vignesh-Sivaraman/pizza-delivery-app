@@ -14,6 +14,13 @@ import EmailVerify from "./Routes/EmailVerify/EmailVerify";
 import ForgotPassword from "./Routes/ForgotPassword/forgotpassword";
 import PasswordVerify from "./Routes/PasswordVerify/PasswordVerify";
 import ResetPass from "./Routes/ResetPass/ResetPass";
+import AdminNav from "./Components/AdminNavbar/AdminNav";
+import AdminHome from "./Routes/AdminHome/AdminHome";
+import AdminPizzaCard from "./Components/AdminPizzaCard/AdminPizzaCard";
+import AdminPizzaDetails from "./Components/AdminPizzaDetails/AdminPizzaDetails";
+import AdminDashboard from "./Routes/Admin Dashboard/AdminDashboard";
+import AdminPizzaVarities from "./Routes/AdminPizzaVarities/AdminPizzaVarities";
+import AdminCreatePizza from "./Routes/AdminCreatePizza/AdminCreatePizza";
 
 library.add(faCartShopping);
 
@@ -27,6 +34,13 @@ function App() {
         <Route path="/forpass" element={<ForgotPassword />} />
         <Route path="/forpass/:id/verify/:token" element={<PasswordVerify />} />
         <Route path="/resetpass" element={<ResetPass />} />
+
+        <Route path="/adminhome" element={<AdminHome />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="adminpizzavarities" element={<AdminPizzaVarities />} />
+          <Route path="admincreatepizza" element={<AdminCreatePizza />} />
+          <Route path="adminpizzadetails" element={<AdminPizzaDetails />} />
+        </Route>
 
         <Route path="/home" element={<Home />}>
           <Route index element={<Dashboard />} />
