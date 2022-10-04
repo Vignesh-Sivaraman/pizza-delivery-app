@@ -22,6 +22,7 @@ import AdminDashboard from "./Routes/Admin Dashboard/AdminDashboard";
 import AdminPizzaVarities from "./Routes/AdminPizzaVarities/AdminPizzaVarities";
 import AdminCreatePizza from "./Routes/AdminCreatePizza/AdminCreatePizza";
 import CustomPizza from "./Routes/CustomPizza/CustomPizza";
+import AdminAddStock from "./Routes/AdminAddStock/AdminAddStock";
 
 library.add(faCartShopping);
 
@@ -44,6 +45,7 @@ function App() {
             path="adminpizzadetails/:pizzaid"
             element={<AdminPizzaDetails />}
           />
+          <Route path="adminaddstock" element={<AdminAddStock />} />
         </Route>
 
         <Route path="/home" element={<Home />}>

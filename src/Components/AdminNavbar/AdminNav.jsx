@@ -4,10 +4,11 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function AdminNav() {
+  let navigate = useNavigate();
   return (
     <Navbar
       bg="primary"
@@ -43,8 +44,36 @@ function AdminNav() {
                 Pizza Varities
               </span>
             </Nav.Link>
-            <Nav.Link className="text-white">Stock Inv</Nav.Link>
-            <Nav.Link className="text-white">Orders</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/adminhome/adminaddstock"
+              className="text-white"
+            >
+              <span
+                data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show"
+              >
+                Add Stock
+              </span>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/adminhome" className="text-white">
+              <span
+                data-bs-toggle="collapse"
+                data-bs-target=".navbar-collapse.show"
+              >
+                Orders
+              </span>
+            </Nav.Link>
+            <button
+              onClick={() => {
+                window.localStorage.clear();
+                navigate("/");
+              }}
+              className="btn d-block btn-primary bg-white text-primary fw-bold ms-2 me-2 cart-button "
+              style={{ position: "relative" }}
+            >
+              Logout
+            </button>
           </Nav>
         </Navbar.Collapse>
       </Container>
