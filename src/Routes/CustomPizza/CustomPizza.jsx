@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Field, FormikProvider, useFormik } from "formik";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { env } from "../../config/config";
+import UserContext from "../../context/UserContext";
 
-const AdminCreatePizza = () => {
+const CustomPizza = () => {
+  let { count, setCount } = useContext(UserContext);
+  let [show, setShow] = useState(false);
+  let [details, setDetails] = useState({});
   let navigate = useNavigate();
   let bases = ["Thin", "Thick", "Flat", "Cracker", "Stuffed"];
   let sauces = ["Pesto", "Hummus", "Garlic", "Jalepeno", "Barbeque"];
@@ -12,11 +16,15 @@ const AdminCreatePizza = () => {
   let veggies = ["Olives", "Pepper", "Tomato", "Zucchini", "Eggplant"];
   let meats = ["Chicken", "Prawn", "Lamb", "Ham", "Bacon"];
 
+  useEffect(() => {
+    setCount(JSON.parse(window.localStorage.getItem("cart-count")));
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       pizza_name: "",
-      pizza_price: Number(""),
-      pizza_uri: "",
+      pizza_price: Number(199),
+      pizza_uri: "https://cdn-icons-png.flaticon.com/512/2094/2094661.png",
       pizza_base: "",
       pizza_sauce: "",
       pizza_cheese: "",
@@ -31,6 +39,7 @@ const AdminCreatePizza = () => {
           else errors[keys] = `Please Enter ${keys}`;
         }
       }
+      // console.log(errors);
       return errors;
     },
     onSubmit: async (values) => {
@@ -40,22 +49,35 @@ const AdminCreatePizza = () => {
           navigate("/");
           console.log(values);
         } else {
-          let sentData = await axios.post(`${env.api}/pizzas`, values, {
-            headers: {
-              Authorization: window.localStorage.getItem("app-token"),
-            },
-          });
-          if (sentData.status === 200) {
-            alert(sentData.data.message);
-            setTimeout(() => {
-              navigate("/adminhome/adminpizzavarities");
-            }, 3000);
+          if (values.pizza_veggie.length > 3) {
+            let customVeggiePrice =
+              parseInt(values.pizza_veggie.length - 3) * 10;
+            values.pizza_price = values.pizza_price + customVeggiePrice;
           }
+          if (values.pizza_meat.length > 1) {
+            let customMeatPrice = parseInt(values.pizza_meat.length - 1) * 50;
+            values.pizza_price = values.pizza_price + customMeatPrice;
+          }
+          console.log(values);
+          setShow(true);
+          setDetails(values);
+          let oldcart = JSON.parse(window.localStorage.getItem("cart-items"));
+          oldcart.push(values);
+          window.localStorage.setItem("cart-items", JSON.stringify(oldcart));
+          let newTotal =
+            parseInt(window.localStorage.getItem("cart-total")) +
+            parseInt(values.pizza_price);
+          window.localStorage.setItem("cart-total", newTotal);
+          let new_count =
+            parseInt(window.localStorage.getItem("cart-count")) + 1;
+          window.localStorage.setItem("cart-count", new_count);
+          setTimeout(() => {
+            alert("added to cart");
+            window.location.reload();
+          }, 2000);
         }
       } catch (error) {
-        alert(
-          `Error Code: ${error.response.status}- ${error.response.data.message}`
-        );
+        alert(console.log(error));
       }
     },
   });
@@ -70,6 +92,11 @@ const AdminCreatePizza = () => {
         width: "100%",
       }}
     >
+      <h5 style={{ color: "red" }}>
+        Note: The base Price of a custom Pizza is Rs. 199/-. You are free to
+        choose 3 veggies and 1 meat. You will be charged an additional Rs.10 and
+        Rs.50 for each veggie & meat after the free ones
+      </h5>
       <FormikProvider value={formik}>
         <form onSubmit={formik.handleSubmit}>
           <div className="row" style={{ height: "100%" }}>
@@ -87,35 +114,6 @@ const AdminCreatePizza = () => {
               </span>
             </div>
 
-            <div className="form-outline mb-3">
-              <label className="form-label text-dark fw-bold fs-4">Price</label>
-              <input
-                className="form-control"
-                type="text"
-                value={formik.values.pizza_price}
-                onChange={formik.handleChange}
-                name="pizza_price"
-              />
-              <span className="fw-bold" style={{ color: "red" }}>
-                {formik.errors.pizza_price}
-              </span>
-            </div>
-
-            <div className="form-outline mb-3">
-              <label className="form-label text-dark fw-bold fs-4">
-                Image_URI
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                value={formik.values.pizza_uri}
-                onChange={formik.handleChange}
-                name="pizza_uri"
-              />
-              <span className="fw-bold" style={{ color: "red" }}>
-                {formik.errors.pizza_uri}
-              </span>
-            </div>
             <div className="my-2">
               <span className="fw-bold fs-3" style={{ color: "#F94892" }}>
                 Ingredients:
@@ -132,6 +130,7 @@ const AdminCreatePizza = () => {
                     type="radio"
                     value={base}
                     name="pizza_base"
+                    required
                   />
                   <label>{base}</label>
                 </div>
@@ -216,11 +215,70 @@ const AdminCreatePizza = () => {
             <span className="fw-bold  mt-2" style={{ color: "red" }}>
               {formik.errors.pizza_meat}
             </span>
+            {show ? (
+              <div className=" my-3">
+                <div
+                  className="card mb-1 mx-auto"
+                  style={{ width: "100%", height: "auto", textAlign: "left" }}
+                >
+                  <div className="mx-1 my-3" style={{ position: "relative" }}>
+                    <img
+                      className="d-inline mx-1"
+                      width="35px"
+                      height="35px"
+                      src={details.pizza_uri}
+                      alt={details.pizza_name}
+                    />
+                    <span className="fw-bold mx-1" style={{ fontSize: "15px" }}>
+                      {details.pizza_name}
+                    </span>
+                    <div className="fw-bold mx-2" style={{ fontSize: "15px" }}>
+                      <span
+                        className="mx-2"
+                        style={{ color: "Blue", fontWeight: "bold" }}
+                      >
+                        Chosen Veggies:
+                      </span>
+                      {details.pizza_veggie.join(",")}
+                    </div>
+                    <div className="fw-bold mx-2" style={{ fontSize: "15px" }}>
+                      <span
+                        className="mx-2"
+                        style={{ color: "Blue", fontWeight: "bold" }}
+                      >
+                        Chosen Meat:
+                      </span>
+                      {details.pizza_meat.join(",")}
+                    </div>
+                    <div className="fw-bold mx-2">
+                      <span
+                        className="mx-2"
+                        style={{ color: "Blue", fontWeight: "bold" }}
+                      >
+                        Extra-Charges:
+                      </span>
+                      Rs. {details.pizza_price - 199}
+                    </div>
+                    <div className="fw-bold mx-2" style={{ fontSize: "15px" }}>
+                      <span
+                        className="mx-2"
+                        style={{ color: "Blue", fontWeight: "bold" }}
+                      >
+                        Total Price:
+                      </span>
+                      Rs. {details.pizza_price}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
 
             <div className="text-center text-lg-start my-2 pt-2">
               <input
                 type={"submit"}
-                value="Add Pizza"
+                value="Add to Cart"
                 className="btn btn-warning btn-lg"
                 style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
               />
@@ -232,4 +290,4 @@ const AdminCreatePizza = () => {
   );
 };
 
-export default AdminCreatePizza;
+export default CustomPizza;

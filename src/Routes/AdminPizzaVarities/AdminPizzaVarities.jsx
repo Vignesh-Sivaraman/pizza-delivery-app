@@ -4,10 +4,26 @@ import AdminPizzaCard from "../../Components/AdminPizzaCard/AdminPizzaCard";
 import UserContext from "../../context/UserContext";
 import { useContext, useEffect, useState } from "react";
 import AdminPizzaDetails from "../AdminPizzaDetails/AdminPizzaDetails";
+import axios from "axios";
+import { env } from "../../config/config";
 
 const AdminPizzaVarities = () => {
-  let { cartItem } = useContext(UserContext);
   let navigate = useNavigate();
+  let [pizzas, setPizzas] = useState([]);
+
+  const getApizzas = async () => {
+    let pizzadata = await axios.get(`${env.api}/pizzas`, {
+      headers: {
+        Authorization: window.localStorage.getItem("app-token"),
+      },
+    });
+    setPizzas(pizzadata.data);
+  };
+
+  useEffect(() => {
+    getApizzas();
+  }, []);
+
   return (
     <div
       className="container mx-auto"
@@ -29,7 +45,7 @@ const AdminPizzaVarities = () => {
       </div>
 
       <div className="row">
-        {cartItem.map((pizza, i) => {
+        {pizzas.map((pizza, i) => {
           return <AdminPizzaCard pizza={pizza} key={i} />;
         })}
       </div>

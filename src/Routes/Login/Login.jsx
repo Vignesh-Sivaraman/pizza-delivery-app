@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Field, FormikProvider, useFormik } from "formik";
 import { env } from "../../config/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/UserContext";
 
 function Login() {
   let navigate = useNavigate();
+  let { setUserName } = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -27,7 +29,17 @@ function Login() {
         let loginData = await axios.post(`${env.api}/login`, values);
 
         if (loginData.status === 200) {
+          let name = loginData.data.email.substr(
+            0,
+            loginData.data.email.indexOf("@")
+          );
+
           window.localStorage.setItem("app-token", loginData.data.token);
+          let cart = [];
+          window.localStorage.setItem("cart-items", JSON.stringify(cart));
+          window.localStorage.setItem("cart-total", 0);
+          window.localStorage.setItem("cart-count", 0);
+          window.localStorage.setItem("username", name);
           if (loginData.data.type === "Admin") navigate("/adminhome");
           if (loginData.data.type === "User") navigate("/home");
         }

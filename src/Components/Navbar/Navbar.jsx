@@ -1,11 +1,13 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 
 const Navbar = () => {
-  let context = useContext(UserContext);
+  let { count } = useContext(UserContext);
+  let navigate = useNavigate();
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-primary container-fluid"
@@ -14,13 +16,19 @@ const Navbar = () => {
       <Link to="/home" className="navbar-brand fw-bold ms-2 fs-3  text-white">
         Pizza Lair
       </Link>
-      <Link className="nav-link text-white ms-3 fw-bold me-1 ">
+      <Link
+        to="/home/custompizza"
+        className="nav-link text-white ms-3 fw-bold me-1 "
+      >
         Custom Pizza
       </Link>
+      <h6 className=" text-white fw-bold ms-auto me-2 ">
+        {window.localStorage.getItem("username")}
+      </h6>
 
       <Link
         to="/home/cart"
-        className=" text-primary fw-bold ms-auto me-2 "
+        className=" text-primary fw-bold ms-2 me-2 "
         style={{ position: "relative" }}
       >
         <FontAwesomeIcon
@@ -42,16 +50,19 @@ const Navbar = () => {
             right: -6,
           }}
         >
-          {context.count}
+          {count}
         </span>
       </Link>
-      <Link
-        to="/"
+      <button
+        onClick={() => {
+          window.localStorage.clear();
+          navigate("/");
+        }}
         className="btn d-block btn-primary bg-white text-primary fw-bold ms-2 me-2 cart-button "
         style={{ position: "relative" }}
       >
         Logout
-      </Link>
+      </button>
     </nav>
   );
 };

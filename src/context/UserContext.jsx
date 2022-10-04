@@ -5,15 +5,27 @@ import { env } from "../config/config";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [cartItem, setCartItem] = useState([]);
+  const [username, setUserName] = useState("");
+  const [cart, setCart] = useState([]);
+  // const [apizzas, setApizzas] = useState([]);
+  const [upizzas, setUpizzas] = useState([]);
+  // const [cartItem, setCartItem] = useState([]);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
 
   return (
     <UserContext.Provider
       value={{
-        cartItem,
-        setCartItem,
+        username,
+        setUserName,
+        cart,
+        setCart,
+        // apizzas,
+        // setApizzas,
+        upizzas,
+        setUpizzas,
+        // cartItem,
+        // setCartItem,
         count,
         setCount,
         total,

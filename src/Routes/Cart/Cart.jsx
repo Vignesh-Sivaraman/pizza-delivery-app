@@ -4,19 +4,31 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 
 const Cart = () => {
-  let context = useContext(UserContext);
-  const pizzas = context.cartItem;
+  let { count, setCount, upizzas, setUpizzas } = useContext(UserContext);
+
+  useEffect(() => {
+    setUpizzas(JSON.parse(window.localStorage.getItem("cart-items")));
+    setCount(JSON.parse(window.localStorage.getItem("cart-count")));
+  }, []);
+
   const removeFromCart = (pizza) => {
+    let pizzas = JSON.parse(window.localStorage.getItem("cart-items"));
     let index = pizzas.findIndex((item) => {
-      return item.id === pizza.id;
+      return item._id === pizza._id;
     });
-    let remove_item = [...pizzas];
-    remove_item.splice(index, 1);
-    context.setCartItem(remove_item);
-    let new_count = context.count - 1;
-    context.setCount(new_count);
-    let new_total = context.total - pizza.pizza_price;
-    context.setTotal(new_total);
+    pizzas.splice(index, 1);
+    window.localStorage.setItem("cart-items", JSON.stringify(pizzas));
+    let new_count = parseInt(window.localStorage.getItem("cart-count")) - 1;
+    window.localStorage.setItem("cart-count", new_count);
+    let newTotal =
+      parseInt(window.localStorage.getItem("cart-total")) -
+      parseInt(pizza.pizza_price);
+    window.localStorage.setItem("cart-total", newTotal);
+    setCount(new_count);
+    setUpizzas(pizzas);
+    // window.location.reload();
+    // let new_total = context.total - pizza.pizza_price;
+    // context.setTotal(new_total);
   };
   return (
     <div
@@ -41,7 +53,7 @@ const Cart = () => {
         }}
       >
         <div className="row">
-          {pizzas.map((pizza, i) => {
+          {upizzas.map((pizza, i) => {
             return (
               <Cartcard pizza={pizza} key={i} removeFromCart={removeFromCart} />
             );
@@ -49,7 +61,9 @@ const Cart = () => {
         </div>
         <button className="btn btn-success fs-3 fw-bold my-3">
           Proceed to Check out:
-          <span className="mx-2">Rs. {context.total}/-</span>
+          <span className="mx-2">
+            Rs. {parseInt(window.localStorage.getItem("cart-total"))}/-
+          </span>
         </button>
       </div>
     </div>

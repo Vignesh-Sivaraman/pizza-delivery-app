@@ -5,6 +5,8 @@ const PizzaCard = ({ pizza, addToCart }) => {
     <div className="col-lg-3 col-12">
       <div className="card mb-5 mx-auto" style={{ width: "18rem" }}>
         <img
+          width="268px"
+          height="286px"
           src={pizza.pizza_uri}
           className="card-img-top"
           alt={pizza.pizza_name}
