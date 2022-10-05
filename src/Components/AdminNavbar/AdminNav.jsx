@@ -68,9 +68,9 @@ function AdminNav() {
                 Orders
               </span>
             </Nav.Link>
-            <span className=" text-white fw-bold mx-3 me-2 ">
+            <Nav.Link className=" text-white fw-bold mx-3 me-2 ">
               {window.localStorage.getItem("username")}
-            </span>
+            </Nav.Link>
             <button
               onClick={() => {
                 window.localStorage.clear();
