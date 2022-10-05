@@ -47,9 +47,8 @@ const AdminCreatePizza = () => {
           });
           if (sentData.status === 200) {
             alert(sentData.data.message);
-            setTimeout(() => {
-              navigate("/adminhome/adminpizzavarities");
-            }, 3000);
+
+            navigate("/adminhome/adminpizzavarities");
           }
         }
       } catch (error) {

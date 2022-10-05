@@ -16,13 +16,13 @@ import PasswordVerify from "./Routes/PasswordVerify/PasswordVerify";
 import ResetPass from "./Routes/ResetPass/ResetPass";
 import AdminNav from "./Components/AdminNavbar/AdminNav";
 import AdminHome from "./Routes/AdminHome/AdminHome";
-import AdminPizzaCard from "./Components/AdminPizzaCard/AdminPizzaCard";
-import AdminPizzaDetails from "./Routes/AdminPizzaDetails/AdminPizzaDetails";
 import AdminDashboard from "./Routes/Admin Dashboard/AdminDashboard";
 import AdminPizzaVarities from "./Routes/AdminPizzaVarities/AdminPizzaVarities";
 import AdminCreatePizza from "./Routes/AdminCreatePizza/AdminCreatePizza";
 import CustomPizza from "./Routes/CustomPizza/CustomPizza";
 import AdminAddStock from "./Routes/AdminAddStock/AdminAddStock";
+import OrderConfirmation from "./Routes/OrderConfirmation/OrderConfirmation";
+import AdminOrders from "./Routes/AdminOrders/AdminOrders";
 
 library.add(faCartShopping);
 
@@ -41,17 +41,15 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="adminpizzavarities" element={<AdminPizzaVarities />} />
           <Route path="admincreatepizza" element={<AdminCreatePizza />} />
-          <Route
-            path="adminpizzadetails/:pizzaid"
-            element={<AdminPizzaDetails />}
-          />
           <Route path="adminaddstock" element={<AdminAddStock />} />
+          <Route path="adminorders" element={<AdminOrders />} />
         </Route>
 
         <Route path="/home" element={<Home />}>
           <Route index element={<Dashboard />} />
           <Route path="cart" element={<Cart />} />
           <Route path="custompizza" element={<CustomPizza />} />
+          <Route path="orderconfirmation" element={<OrderConfirmation />} />
         </Route>
       </Routes>
     </UserProvider>

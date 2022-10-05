@@ -56,12 +56,19 @@ function AdminNav() {
                 Add Stock
               </span>
             </Nav.Link>
-            <Nav.Link as={Link} to="/adminhome" className="text-white">
+            <Nav.Link
+              as={Link}
+              to="/adminhome/adminorders"
+              className="text-white"
+            >
               <span
                 data-bs-toggle="collapse"
                 data-bs-target=".navbar-collapse.show"
               >
                 Orders
+              </span>
+              <span className=" text-white fw-bold mx-3 me-2 ">
+                {window.localStorage.getItem("username")}
               </span>
             </Nav.Link>
             <button

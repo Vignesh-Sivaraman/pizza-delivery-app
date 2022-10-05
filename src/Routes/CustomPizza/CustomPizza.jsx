@@ -74,7 +74,7 @@ const CustomPizza = () => {
           setTimeout(() => {
             alert("added to cart");
             window.location.reload();
-          }, 2000);
+          }, 1000);
         }
       } catch (error) {
         alert(console.log(error));

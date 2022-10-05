@@ -2,6 +2,7 @@ import React from "react";
 import Cartcard from "../../Components/Cartcard/Cartcard";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
+import Payment from "../../Components/Payment/Payment";
 
 const Cart = () => {
   let { count, setCount, upizzas, setUpizzas } = useContext(UserContext);
@@ -59,13 +60,9 @@ const Cart = () => {
             );
           })}
         </div>
-        <button className="btn btn-success fs-3 fw-bold my-3">
-          Proceed to Check out:
-          <span className="mx-2">
-            Rs. {parseInt(window.localStorage.getItem("cart-total"))}/-
-          </span>
-        </button>
       </div>
+      <div></div>
+      <Payment />
     </div>
   );
 };

@@ -17,18 +17,9 @@ const AdminPizzaCard = ({ pizza }) => {
           <h4 className="card-title text-center mt-3 mb-4">
             {pizza.pizza_name}
           </h4>
-          <h5 className="card-title text-center mt-3 mb-4">
+          <h5 className="card-title text-center text-primary mt-3 mb-4">
             Rs. {pizza.pizza_price}/-
           </h5>
-
-          <button
-            className="btn btn-primary ms-3 d-inline"
-            onClick={() =>
-              navigate(`/adminhome/adminpizzadetails/${pizza._id}`)
-            }
-          >
-            More details
-          </button>
         </div>
       </div>
     </div>

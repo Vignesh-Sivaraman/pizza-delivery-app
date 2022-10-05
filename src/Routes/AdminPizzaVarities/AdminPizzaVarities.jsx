@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AdminPizzaCard from "../../Components/AdminPizzaCard/AdminPizzaCard";
 import UserContext from "../../context/UserContext";
 import { useContext, useEffect, useState } from "react";
-import AdminPizzaDetails from "../AdminPizzaDetails/AdminPizzaDetails";
 import axios from "axios";
 import { env } from "../../config/config";
 

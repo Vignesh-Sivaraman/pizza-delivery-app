@@ -42,28 +42,6 @@ const Dashboard = () => {
     window.localStorage.setItem("cart-count", new_count);
     setCount(new_count);
     setUpizzas(oldcart);
-    // window.location.reload();
-
-    // console.log(oldcart);
-    // let additional_item = [...context.cartItem];
-    // additional_item.push(pizza);
-    // context.setCartItem(additional_item);
-    // let new_count = context.count + 1;
-    // context.setCount(new_count);
-    // let new_total = parseInt(context.total) + parseInt(pizza.pizza_price);
-    // context.setTotal(new_total);
-    // try {
-    //   let pizzadata = await axios.post(`${env.api}/cartpizzas`, pizza, {
-    //     headers: {
-    //       Authorization: window.localStorage.getItem("app-token"),
-    //     },
-    //   });
-    //   if (pizzadata.status === 200) alert(pizzadata.data.message);
-    // } catch (error) {
-    //   alert(
-    //     `Error Code: ${error.response.status}- ${error.response.data.message}`
-    //   );
-    // }
   };
   return (
     <div
