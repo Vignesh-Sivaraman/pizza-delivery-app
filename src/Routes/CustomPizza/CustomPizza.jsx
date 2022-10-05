@@ -47,8 +47,8 @@ const CustomPizza = () => {
         if (!window.localStorage.getItem("app-token")) {
           alert("Please Login");
           navigate("/");
-          console.log(values);
         } else {
+          values._id = values.pizza_name + Math.random().toString(16).slice(2);
           if (values.pizza_veggie.length > 3) {
             let customVeggiePrice =
               parseInt(values.pizza_veggie.length - 3) * 10;
