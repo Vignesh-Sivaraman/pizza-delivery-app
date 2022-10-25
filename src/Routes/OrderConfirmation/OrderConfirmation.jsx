@@ -11,7 +11,15 @@ const OrderConfirmation = () => {
   let [first, setFirst] = useState("");
   let [order, setOrder] = useState({});
   let [datas, setDatas] = useState([]);
-  let [status, setStatus] = useState();
+  let [status, setStatus] = useState(false);
+  let deleteData = async () => {
+    await axios.get(`${env.api}/deletecartpizzas`, {
+      headers: {
+        Authorization: window.localStorage.getItem("app-token"),
+      },
+    });
+  };
+
   let getorders = async () => {
     let orderData = await axios.get(`${env.api}/getcartpizzas`, {
       headers: {
@@ -26,27 +34,19 @@ const OrderConfirmation = () => {
     });
 
     setDatas(pizzzanames);
-    setStatus(orderData.data[0].orderApproved);
+
+    if (orderData.data[0].orderApproved) {
+      setStatus(orderData.data[0].orderApproved);
+      setTimeout(() => {
+        alert("order confirmed");
+        deleteData();
+        navigate("/home");
+      }, 1000);
+    }
   };
   useEffect(() => {
     getorders();
   }, []);
-
-  let deleteData = async () => {
-    await axios.get(`${env.api}/deletecartpizzas`, {
-      headers: {
-        Authorization: window.localStorage.getItem("app-token"),
-      },
-    });
-  };
-
-  if (status) {
-    alert("order confirmed");
-    setTimeout(() => {
-      deleteData();
-      navigate("/home");
-    }, 1000);
-  }
 
   return (
     <div
