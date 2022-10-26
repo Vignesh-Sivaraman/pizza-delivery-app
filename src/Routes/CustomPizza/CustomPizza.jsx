@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Field, FormikProvider, useFormik } from "formik";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { env } from "../../config/config";
+import { FormikProvider, useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 
 const CustomPizza = () => {
@@ -15,6 +13,13 @@ const CustomPizza = () => {
   let cheeses = ["Asiago", "Blue", "Bocconcini", "Brie"];
   let veggies = ["Olives", "Pepper", "Tomato", "Zucchini", "Eggplant"];
   let meats = ["Chicken", "Prawn", "Lamb", "Ham", "Bacon"];
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     setCount(JSON.parse(window.localStorage.getItem("cart-count")));

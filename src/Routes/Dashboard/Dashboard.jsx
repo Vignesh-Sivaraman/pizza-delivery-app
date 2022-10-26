@@ -12,18 +12,20 @@ const Dashboard = () => {
   let navigate = useNavigate();
 
   const getpizzas = async () => {
+    let pizzadata = await axios.get(`${env.api}/pizzas`, {
+      headers: {
+        Authorization: window.localStorage.getItem("app-token"),
+      },
+    });
+    setPizzas(pizzadata.data);
+  };
+
+  useEffect(() => {
     if (!window.localStorage.getItem("app-token")) {
       alert("Please Login");
       navigate("/");
-    } else {
-      let pizzadata = await axios.get(`${env.api}/pizzas`, {
-        headers: {
-          Authorization: window.localStorage.getItem("app-token"),
-        },
-      });
-      setPizzas(pizzadata.data);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getpizzas();

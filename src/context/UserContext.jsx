@@ -1,15 +1,11 @@
-import axios from "axios";
-import { createContext, useEffect, useState } from "react";
-import { env } from "../config/config";
+import { createContext, useState } from "react";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [username, setUserName] = useState("");
   const [cart, setCart] = useState([]);
-  // const [apizzas, setApizzas] = useState([]);
   const [upizzas, setUpizzas] = useState([]);
-  // const [cartItem, setCartItem] = useState([]);
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -20,12 +16,8 @@ export const UserProvider = ({ children }) => {
         setUserName,
         cart,
         setCart,
-        // apizzas,
-        // setApizzas,
         upizzas,
         setUpizzas,
-        // cartItem,
-        // setCartItem,
         count,
         setCount,
         total,

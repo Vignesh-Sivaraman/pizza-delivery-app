@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Field, FormikProvider, useFormik } from "formik";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +6,12 @@ import { env } from "../../config/config";
 
 const AdminCreatePizza = () => {
   let navigate = useNavigate();
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
   let bases = ["Thin", "Thick", "Flat", "Cracker", "Stuffed"];
   let sauces = ["Pesto", "Hummus", "Garlic", "Jalepeno", "Barbeque"];
   let cheeses = ["Asiago", "Blue", "Bocconcini", "Brie"];

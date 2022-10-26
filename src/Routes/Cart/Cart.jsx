@@ -3,9 +3,17 @@ import Cartcard from "../../Components/Cartcard/Cartcard";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import Payment from "../../Components/Payment/Payment";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   let { count, setCount, upizzas, setUpizzas } = useContext(UserContext);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     setUpizzas(JSON.parse(window.localStorage.getItem("cart-items")));

@@ -1,13 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AdminPizzaCard from "../../Components/AdminPizzaCard/AdminPizzaCard";
-import UserContext from "../../context/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { env } from "../../config/config";
 
 const AdminPizzaVarities = () => {
   let navigate = useNavigate();
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
   let [pizzas, setPizzas] = useState([]);
 
   const getApizzas = async () => {

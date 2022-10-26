@@ -12,6 +12,12 @@ const OrderConfirmation = () => {
   let [order, setOrder] = useState({});
   let [datas, setDatas] = useState([]);
   let [status, setStatus] = useState(false);
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
   let deleteData = async () => {
     await axios.get(`${env.api}/deletecartpizzas`, {
       headers: {

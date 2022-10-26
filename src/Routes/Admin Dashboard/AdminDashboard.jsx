@@ -12,35 +12,25 @@ const AdminDashboard = () => {
   let [cheese, setCheese] = useState([]);
   let [veggie, setVeggie] = useState([]);
   let [meat, setMeat] = useState([]);
-  // let base = [];
-  // let sauce = [];
-  // let cheese = [];
-  // let veggie = [];
-  // let meat = [];
   const getstock = async () => {
-    if (!window.localStorage.getItem("app-token")) {
-      alert("Please Login");
-      navigate("/");
-    } else {
-      let stockdata = await axios.get(`${env.api}/Inventory`, {
-        headers: {
-          Authorization: window.localStorage.getItem("app-token"),
-        },
-      });
+    let stockdata = await axios.get(`${env.api}/Inventory`, {
+      headers: {
+        Authorization: window.localStorage.getItem("app-token"),
+      },
+    });
 
-      let updatedStock = Object.assign(stockdata.data[0]);
-      setStock(updatedStock);
-      let updatedbase = Object.keys(stockdata.data[0]).slice(2, 7);
-      setBase(updatedbase);
-      let updatedsauce = Object.keys(stockdata.data[0]).slice(7, 12);
-      setSauce(updatedsauce);
-      let updatedcheeese = Object.keys(stockdata.data[0]).slice(12, 16);
-      setCheese(updatedcheeese);
-      let updatedveggie = Object.keys(stockdata.data[0]).slice(16, 21);
-      setVeggie(updatedveggie);
-      let updatedmeat = Object.keys(stockdata.data[0]).slice(21, 26);
-      setMeat(updatedmeat);
-    }
+    let updatedStock = Object.assign(stockdata.data[0]);
+    setStock(updatedStock);
+    let updatedbase = Object.keys(stockdata.data[0]).slice(2, 7);
+    setBase(updatedbase);
+    let updatedsauce = Object.keys(stockdata.data[0]).slice(7, 12);
+    setSauce(updatedsauce);
+    let updatedcheeese = Object.keys(stockdata.data[0]).slice(12, 16);
+    setCheese(updatedcheeese);
+    let updatedveggie = Object.keys(stockdata.data[0]).slice(16, 21);
+    setVeggie(updatedveggie);
+    let updatedmeat = Object.keys(stockdata.data[0]).slice(21, 26);
+    setMeat(updatedmeat);
   };
 
   const checkstock = async () => {
@@ -75,6 +65,13 @@ const AdminDashboard = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
 
   useEffect(() => {
     getstock();

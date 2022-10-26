@@ -1,4 +1,3 @@
-import { config } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
@@ -6,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { env } from "../../config/config";
 
 const AdminOrders = () => {
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
   let [first, setFirst] = useState("");
   let [order, setOrder] = useState({});
   let [datas, setDatas] = useState([]);

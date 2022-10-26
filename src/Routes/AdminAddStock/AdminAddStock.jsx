@@ -6,6 +6,12 @@ import { env } from "../../config/config";
 
 const AdminAddStock = () => {
   let navigate = useNavigate();
+  useEffect(() => {
+    if (!window.localStorage.getItem("app-token")) {
+      alert("Please Login");
+      navigate("/");
+    }
+  }, []);
 
   let bases = ["Thin", "Thick", "Flat", "Cracker", "Stuffed"];
   let sauces = ["Pesto", "Hummus", "Garlic", "Jalepeno", "Barbeque"];
