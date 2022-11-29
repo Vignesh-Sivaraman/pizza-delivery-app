@@ -1,5 +1,5 @@
 export const env = {
-  api: "https://viki-pizza-backend.herokuapp.com",
+  api: "http://pizza-delivery-app-backend.vercel.app",
 };
 
 // "http://localhost:3001"
