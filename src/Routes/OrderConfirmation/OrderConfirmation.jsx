@@ -8,9 +8,9 @@ import { env } from "../../config/config";
 
 const OrderConfirmation = () => {
   let navigate = useNavigate();
-  let [first, setFirst] = useState("");
-  let [order, setOrder] = useState({});
-  let [datas, setDatas] = useState([]);
+  // let [first, setFirst] = useState("");
+  let [orders, setOrders] = useState([]);
+  // let [datas, setDatas] = useState([]);
   let [status, setStatus] = useState(false);
   useEffect(() => {
     if (!window.localStorage.getItem("app-token")) {
@@ -32,23 +32,23 @@ const OrderConfirmation = () => {
         Authorization: window.localStorage.getItem("app-token"),
       },
     });
-    setOrder(orderData.data[0]);
-    setFirst(orderData.data[0].email);
+    setOrders(orderData.data);
+    // setFirst(orderData.data[0].email);
 
-    let pizzzanames = orderData.data[0].orders.map((data) => {
-      return data.pizza_name;
-    });
+    // let pizzzanames = orderData.data[0].orders.map((data) => {
+    //   return data.pizza_name;
+    // });
 
-    setDatas(pizzzanames);
+    // setDatas(pizzzanames);
 
-    if (orderData.data[0].orderApproved) {
-      setStatus(orderData.data[0].orderApproved);
-      setTimeout(() => {
-        alert("order confirmed");
-        deleteData();
-        navigate("/home");
-      }, 1000);
-    }
+    // if (orderData.data[0].orderApproved) {
+    //   setStatus(orderData.data[0].orderApproved);
+    //   setTimeout(() => {
+    //     alert("order confirmed");
+    //     deleteData();
+    //     navigate("/home");
+    //   }, 1000);
+    // }
   };
   useEffect(() => {
     getorders();
@@ -72,37 +72,43 @@ const OrderConfirmation = () => {
           page to see status if admin has approved.
         </span>
       </h3>
-      <h3 className="text-center fw-bold text-primary">Pizza Name</h3>
-      <Table striped bordered hover variant="priamry">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Email</th>
-            <th>OrderDetails</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>{first}</td>
-            <td>{datas.length > 1 ? datas.join(",") : ""}</td>
-            <td>Rs.{order.orderTotal}/-</td>
-            <td>
-              {status ? (
-                <span style={{ fontWeight: "bold", color: "green" }}>
-                  order Approved
-                </span>
-              ) : (
-                <span style={{ fontWeight: "bold", color: "orange" }}>
-                  waiting for Approval
-                </span>
-              )}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      <h3 className="text-center fw-bold text-primary">Your orders</h3>
+      {orders
+        ? orders.map((order, i) => {
+            return (
+              <table className="table table-hover table-bordered" key={i + 1}>
+                <thead className="table-info">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">OrderID</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">{i + 1}</th>
+                    <td>{order.email}</td>
+                    <td>{order.orderId}</td>
+                    <td>Rs.{order.orderTotal}/-</td>
+                    <td>
+                      {order.orderApproved ? (
+                        <span style={{ fontWeight: "bold", color: "green" }}>
+                          Delivered
+                        </span>
+                      ) : (
+                        <span style={{ fontWeight: "bold", color: "orange" }}>
+                          In preparation
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            );
+          })
+        : ""}
     </div>
   );
 };

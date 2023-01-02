@@ -6,8 +6,18 @@ import Payment from "../../Components/Payment/Payment";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  let { count, setCount, upizzas, setUpizzas } = useContext(UserContext);
+  let { setCount, upizzas, setUpizzas } = useContext(UserContext);
+  const [message, setMessage] = useState("");
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.localStorage.getItem("cart-total") === "0") {
+      setMessage("Please add items to your Cart");
+    } else {
+      setMessage("Your Cart");
+    }
+  }, []);
+
   useEffect(() => {
     if (!window.localStorage.getItem("app-token")) {
       alert("Please Login");
@@ -35,9 +45,6 @@ const Cart = () => {
     window.localStorage.setItem("cart-total", newTotal);
     setCount(new_count);
     setUpizzas(pizzas);
-    // window.location.reload();
-    // let new_total = context.total - pizza.pizza_price;
-    // context.setTotal(new_total);
   };
   return (
     <div
@@ -50,7 +57,7 @@ const Cart = () => {
         textAlign: "center",
       }}
     >
-      <h1 style={{ color: "#0d6efd" }}>Your Cart</h1>
+      <h1 style={{ color: "#0d6efd" }}>{message}</h1>
       <div
         className="container mx-auto card-box"
         style={{
